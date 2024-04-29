@@ -8,7 +8,8 @@ abstract class Controller
 {
     protected function createResponseFromServiceResult(
         ServiceResult $serviceResult,
-        bool          $returnValue = false
+        ?string       $resource = null,
+        bool          $returnValue = false,
     )
     {
         if ($serviceResult->isError) {
@@ -24,6 +25,10 @@ abstract class Controller
             return response()->json([
                 'data' => $data
             ]);
+        }
+
+        if ($resource) {
+            return new $resource($data);
         }
 
         return response()->json();

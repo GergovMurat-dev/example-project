@@ -10,6 +10,7 @@ Route::get('/user', function (Request $request) {
 
 Route::controller(ProductController::class)->group(function () {
     Route::prefix('/products')->group(function () {
+        Route::get('/', 'index');
         Route::post('/', 'store');
     });
 });

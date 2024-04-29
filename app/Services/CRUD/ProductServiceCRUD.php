@@ -3,13 +3,13 @@
 namespace App\Services\CRUD;
 
 use App\Models\Product;
-use App\Repositories\ProductRepository;
+use App\Repositories\CRUD\ProductCRUDRepositoryCRUD;
 use App\Services\CRUD\Common\BaseService;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductServiceCRUD extends BaseService
 {
-    public function __construct(ProductRepository $repository)
+    public function __construct(ProductCRUDRepositoryCRUD $repository)
     {
         parent::__construct($repository);
     }

@@ -2,22 +2,30 @@
 
 namespace App\Repositories\Common;
 
-use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-abstract class BaseRepository implements RepositoryInterface
+abstract class BaseRepository
 {
-    public function getAll(): Collection
+    abstract protected function getModelQB(): Builder;
+
+    protected function getList(
+        Builder $query
+    ): Collection
     {
-        return $this->getModelQB()->get();
+        return $query->get();
     }
 
-    public function getById(int $id): ?Model
+    protected function getWithPaginate(
+        Builder $query,
+        ?int    $perPage = null,
+        ?int    $page = null
+    ): LengthAwarePaginator
     {
-        return $this->getModelQB()->find($id);
+        return $query->paginate(
+            perPage: $perPage ?? 10,
+            page: $page ?? 1
+        );
     }
-
-    abstract function getModelQB(): Builder;
 }
