@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\Filter\ProductFilter;
 use App\DTO\Paginate\PaginateDTO;
 use App\DTO\Product\ProductCreateDTO;
 use App\Http\Controllers\Controller;
@@ -20,6 +21,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $serviceResult = $this->productService->getProductsWithPagination(
+            productFilter: ProductFilter::fillAttributes($request->all()),
             paginateDTO: PaginateDTO::fillAttributes($request->all())
         );
 

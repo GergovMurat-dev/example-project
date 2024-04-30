@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Filter\ProductFilter;
 use App\DTO\Paginate\PaginateDTO;
 use App\DTO\Product\ProductCreateDTO;
 use App\Models\Product;
@@ -33,11 +34,13 @@ class ProductService
     }
 
     public function getProductsWithPagination(
-        PaginateDTO $paginateDTO
+        ProductFilter $productFilter,
+        PaginateDTO   $paginateDTO
     ): ServiceResult
     {
         return ServiceResult::createSuccessResult(
             $this->productRepository->getProductsWithPaginate(
+                categories: $productFilter->categories,
                 perPage: $paginateDTO->perPage,
                 page: $paginateDTO->page
             )

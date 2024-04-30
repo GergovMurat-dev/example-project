@@ -24,7 +24,8 @@ class ProductServiceCRUD extends BaseService
         return [
             'title' => 'string|required|max:255',
             'description' => 'nullable|string|max:512',
-            'price' => 'decimal:0,2'
+            'price' => 'decimal:0,2',
+            'category_id' => 'required|int|exists:categories,id'
         ];
     }
 }
