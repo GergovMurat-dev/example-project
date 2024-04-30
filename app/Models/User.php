@@ -30,7 +30,8 @@ class User extends Authenticatable
         'email',
         'password',
         'confirmation_hash',
-        'is_confirmed_email'
+        'is_confirmed_email',
+        'email_verified_at'
     ];
 
     /**

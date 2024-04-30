@@ -40,4 +40,13 @@ class AuthController extends Controller
             resource: TokenResource::class
         );
     }
+
+    public function confirmationEmail(Request $request)
+    {
+        $serviceResult = $this->authService->confirmEmail($request->hash ?? '');
+
+        return $this->createResponseFromServiceResult(
+            serviceResult: $serviceResult
+        );
+    }
 }

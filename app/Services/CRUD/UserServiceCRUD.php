@@ -5,6 +5,7 @@ namespace App\Services\CRUD;
 use App\Models\User;
 use App\Repositories\CRUD\UserRepositoryCRUD;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class UserServiceCRUD extends Common\BaseService
@@ -23,13 +24,14 @@ class UserServiceCRUD extends Common\BaseService
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($properties['id'] ?? 0)],
             'password' => [
-                'required',
+                'sometimes',
                 'min:8',
                 Password::default()
             ],
-            'confirmation_hash' => 'nullable|unique:users,confirmation_hash'
+            'confirmation_hash' => 'nullable',
+            'is_confirmed_email' => 'boolean'
         ];
     }
 }

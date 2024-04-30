@@ -53,7 +53,7 @@ abstract class BaseService
 
     public function processSave(array $properties, Model $model): ServiceResult
     {
-        $properties = array_merge($properties, $model->toArray());
+        $properties = array_merge($model->toArray(), $properties);
 
         $data = $this->prepareData($properties);
 

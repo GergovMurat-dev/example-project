@@ -9,6 +9,7 @@ use App\Mail\ConfirmationUserMail;
 use App\Models\User;
 use App\Services\Common\ServiceResult;
 use App\Services\CRUD\UserServiceCRUD;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +19,7 @@ class AuthService
 {
     public function __construct(
         private readonly UserServiceCRUD $userServiceCRUD,
+        private readonly UserService     $userService,
         private readonly MailService     $mailService
     )
     {
@@ -75,6 +77,31 @@ class AuthService
         $token = $user->createToken('auth')->plainTextToken;
 
         return ServiceResult::createSuccessResult(['token' => $token]);
+    }
+
+    public function confirmEmail(string $hash): ServiceResult
+    {
+        if (!$hash) {
+            return ServiceResult::createErrorResult('Не передано обязательное значение');
+        }
+
+        $user = $this->userService->getByHash($hash);
+
+        if (!$user) {
+            return ServiceResult::createErrorResult('Пользователь не найден');
+        }
+
+        $userUpdateServiceResult = $this->userServiceCRUD->update([
+            'is_confirmed_email' => true,
+            'confirmation_hash' => null,
+            'email_verified_at' => Carbon::now()
+        ], $user->id);
+
+        if ($userUpdateServiceResult->isError) {
+            return $userUpdateServiceResult;
+        }
+
+        return ServiceResult::createSuccessResult();
     }
 
     private function generateHash(): string
