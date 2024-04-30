@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegistrationDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Token\TokenResource;
@@ -20,6 +21,18 @@ class AuthController extends Controller
     {
         $serviceResult = $this->authService->registration(
             registrationDTO: RegistrationDTO::fillAttributes($request->all())
+        );
+
+        return $this->createResponseFromServiceResult(
+            serviceResult: $serviceResult,
+            resource: TokenResource::class
+        );
+    }
+
+    public function login(Request $request)
+    {
+        $serviceResult = $this->authService->login(
+            loginDTO: LoginDTO::fillAttributes($request->all())
         );
 
         return $this->createResponseFromServiceResult(

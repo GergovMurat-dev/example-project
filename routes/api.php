@@ -22,5 +22,6 @@ Route::controller(CategoryController::class)->group(function () {
 Route::controller(AuthController::class)->group(function () {
     Route::prefix('/auth')->group(function () {
         Route::post('/registration', 'registration');
+        Route::post('/login', 'login');
     });
 });
