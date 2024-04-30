@@ -14,4 +14,10 @@ class CategoryCreateDTO extends Common\BaseDTO
     )
     {
     }
+
+    protected static function prepareProperties(&$properties): void
+    {
+        $properties['isActive'] = $properties['isActive'] ?? false;
+        $properties['order'] = $properties['order'] ?? 0;
+    }
 }

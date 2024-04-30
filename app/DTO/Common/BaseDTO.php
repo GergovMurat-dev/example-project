@@ -14,7 +14,7 @@ class BaseDTO
         return new static(...$properties);
     }
 
-    private static function prepareProperties(&$properties): void
+    protected static function prepareProperties(&$properties): void
     {
 
     }
