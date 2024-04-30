@@ -28,7 +28,8 @@ class UserServiceCRUD extends Common\BaseService
                 'required',
                 'min:8',
                 Password::default()
-            ]
+            ],
+            'confirmation_hash' => 'nullable|unique:users,confirmation_hash'
         ];
     }
 }

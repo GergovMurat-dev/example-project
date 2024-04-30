@@ -8,6 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ * @property string $email
+ * @property string $name
+ *
+ * @property string $confirmation_hash
+ * @property bool $is_confirmed_email
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
@@ -21,6 +29,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'confirmation_hash',
+        'is_confirmed_email'
     ];
 
     /**
@@ -33,6 +43,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $attributes = [
+        'is_confirmed_email' => false,
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -43,6 +57,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_confirmed_email' => 'bool'
         ];
     }
 }
